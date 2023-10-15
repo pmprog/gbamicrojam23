@@ -23,8 +23,8 @@ namespace pkc
 {
 
 pumpkincount::pumpkincount(int completed_games, const mj::game_data& data) :
-    _bg(bn::regular_bg_items::pkc_patch.create_bg((256 - 240) / 2, (256 - 160) / 2)),
-    _bgov(bn::regular_bg_items::pkc_overlay.create_bg((256 - 240) / 2, (256 - 160) / 2)),
+    _bg(bn::regular_bg_items::pkc_patch.create_bg(0, 0)),
+    _bgov(bn::regular_bg_items::pkc_overlay.create_bg(8, 48)),
     _total_frames(play_jingle(mj::game_jingle_type::METRONOME_16BEAT, completed_games, data))
 {
 }
@@ -40,6 +40,23 @@ mj::game_result pumpkincount::play(const mj::game_data& data)
 
     if(! _victory && ! _defeat)
     {
+        if(bn::keypad::right_held() && _bgov.x() < 202)
+        {
+            _bgov.set_x(_bgov.x() + 2);
+        }
+        if(bn::keypad::left_held() && _bgov.x() >= 2)
+        {
+            _bgov.set_x(_bgov.x() - 2);
+        }
+        if(bn::keypad::down_held() && _bgov.y() < 128)
+        {
+            _bgov.set_y(_bgov.y() + 2);
+        }
+        if(bn::keypad::up_held() && _bgov.y() >= 24)
+        {
+            _bgov.set_y(_bgov.y() - 2);
+        }
+
     }
     else
     {
