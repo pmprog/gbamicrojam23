@@ -33,7 +33,9 @@ private:
     bn::affine_mat_attributes _affine_mat_attributes[160];
     bn::regular_bg_ptr _bg_1;
     bn::regular_bg_ptr _bg_2;
+    bn::regular_bg_ptr _bg_3;
     bn::optional<bn::bg_palettes_fade_to_action> _bgs_fade_action;
+    bn::optional<bn::bg_palettes_fade_to_action> _bgs_lightning_action;
     bn::optional<bn::sprite_palettes_fade_to_action> _sprites_fade_action;
     bn::optional<bn::music_volume_to_action> _music_volume_action;
     bn::vector<bn::sprite_ptr, 16> _title_sprites_1;

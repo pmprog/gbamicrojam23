@@ -27,8 +27,8 @@ namespace mj
 
 namespace
 {
-    constexpr int frames_per_bg_update = 5;
-    constexpr int fade_frames = 22 * frames_per_bg_update;
+    constexpr int frames_per_bg_update = 6;
+    constexpr int fade_frames = 11 * frames_per_bg_update;
 
     constexpr int title_frames = 128;
 }
@@ -36,6 +36,7 @@ namespace
 title_scene::title_scene(core& core) :
     _bg_1(bn::regular_bg_items::mj_tombstone_1.create_bg((256 - 240) / 2, (256 - 160) / 2)),
     _bg_2(bn::regular_bg_items::mj_tombstone_2.create_bg((256 - 240) / 2, (256 - 160) / 2)),
+    _bg_3(bn::regular_bg_items::mj_tombstone_3.create_bg((256 - 240) / 2, (256 - 160) / 2)),
     _cursor_sprite(bn::sprite_items::mj_small_pumpkin.create_sprite(0, 0, 12)),
     _bg_camera(bn::camera_ptr::create(0, 0)),
     _affine_mat(bn::sprite_affine_mat_ptr::create()),
@@ -48,6 +49,9 @@ title_scene::title_scene(core& core) :
 
     //_bg_1.set_camera(_bg_camera);
     //_bg_2.set_camera(_bg_camera);
+    _bg_1.set_priority(3);
+    _bg_2.set_priority(2);
+    _bg_3.set_priority(1);
 
     bn::bg_palettes::set_fade(bn::color(), 1);
     _bgs_fade_action.emplace(fade_frames, 0);
@@ -131,7 +135,7 @@ void title_scene::_update_bgs()
 
     if(_bg_update_counter == frames_per_bg_update)
     {
-        bn::fixed camera_x = _bg_1.x() + 1;
+        bn::fixed camera_x = _bg_2.x() + 1;
         _bg_update_counter = 0;
 
         /*
@@ -160,7 +164,7 @@ void title_scene::_update_bgs()
         }
         */
 
-        _bg_1.set_x(camera_x);
+        _bg_2.set_x(camera_x);
     }
 }
 
@@ -208,6 +212,7 @@ void title_scene::_create_title_sprites()
         title_sprite.set_affine_mat(_affine_mat);
         title_sprite.set_double_size_mode(bn::sprite_double_size_mode::ENABLED);
         title_sprite.set_z_order(-1);
+        title_sprite.set_bg_priority(0);
     }
 
     for(bn::sprite_ptr& title_sprite : _title_sprites_2)
@@ -216,6 +221,7 @@ void title_scene::_create_title_sprites()
         title_sprite.set_affine_mat(_affine_mat);
         title_sprite.set_double_size_mode(bn::sprite_double_size_mode::ENABLED);
         title_sprite.set_visible(false);
+        title_sprite.set_bg_priority(0);
     }
 }
 
