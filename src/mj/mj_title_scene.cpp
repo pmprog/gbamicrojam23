@@ -27,7 +27,7 @@ namespace mj
 
 namespace
 {
-    constexpr int frames_per_bg_update = 3;
+    constexpr int frames_per_bg_update = 5;
     constexpr int fade_frames = 22 * frames_per_bg_update;
 
     constexpr int title_frames = 128;
@@ -35,19 +35,19 @@ namespace
 
 title_scene::title_scene(core& core) :
     _bg_1(bn::regular_bg_items::mj_tombstone_1.create_bg((256 - 240) / 2, (256 - 160) / 2)),
-    _bg_2(bn::regular_bg_items::mj_tombstone_2.create_bg(_bg_1.x() + 240, (256 - 160) / 2)),
+    _bg_2(bn::regular_bg_items::mj_tombstone_2.create_bg((256 - 240) / 2, (256 - 160) / 2)),
     _cursor_sprite(bn::sprite_items::mj_small_pumpkin.create_sprite(0, 0, 12)),
     _bg_camera(bn::camera_ptr::create(0, 0)),
     _affine_mat(bn::sprite_affine_mat_ptr::create()),
     _affine_mat_hbe(bn::sprite_affine_mat_attributes_hbe_ptr::create(_affine_mat, _affine_mat_attributes))
 {
-    bn::rect_window internal_window = bn::rect_window::internal();
-    internal_window.set_boundaries(-80, _bg_2.x() - 128, 80, _bg_2.x() + 112);
-    internal_window.set_camera(_bg_camera);
-    bn::rect_window::outside().set_show_bg(_bg_2, false);
+    //bn::rect_window internal_window = bn::rect_window::internal();
+    //internal_window.set_boundaries(-80, _bg_2.x() - 128, 80, _bg_2.x() + 112);
+    //internal_window.set_camera(_bg_camera);
+    //bn::rect_window::outside().set_show_bg(_bg_2, false);
 
-    _bg_1.set_camera(_bg_camera);
-    _bg_2.set_camera(_bg_camera);
+    //_bg_1.set_camera(_bg_camera);
+    //_bg_2.set_camera(_bg_camera);
 
     bn::bg_palettes::set_fade(bn::color(), 1);
     _bgs_fade_action.emplace(fade_frames, 0);
@@ -131,9 +131,10 @@ void title_scene::_update_bgs()
 
     if(_bg_update_counter == frames_per_bg_update)
     {
-        bn::fixed camera_x = _bg_camera.x() + 1;
+        bn::fixed camera_x = _bg_1.x() + 1;
         _bg_update_counter = 0;
 
+        /*
         if(camera_x == 240)
         {
             _bg_1.set_x(_bg_1.x() - 32);
@@ -157,8 +158,9 @@ void title_scene::_update_bgs()
                 _bgs_fade_action.emplace(fade_frames, 0);
             }
         }
+        */
 
-        _bg_camera.set_x(camera_x);
+        _bg_1.set_x(camera_x);
     }
 }
 
